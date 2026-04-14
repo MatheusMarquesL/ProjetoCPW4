@@ -1,0 +1,22 @@
+@use 'variables' as *;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $background;
+    font-family: Arial, sans-serif;
+    color: $text-dark;
+}
+
+a {
+    text-decoration: none;
+    color: $primary-dark;
+}
+
+h1, h2, h3 {
+    color: $primary-dark;
+}

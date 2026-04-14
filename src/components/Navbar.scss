@@ -1,0 +1,31 @@
+@use "../styles/variables.scss";
+
+.navbar {
+    background-color: variables.$primary;
+    color: variables.$text-light;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .links a {
+        color: variables.$text-light;
+        margin-left: 16px;
+        font-weight: bold;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .logo img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logo h2 {
+        color: white;
+    }
+}

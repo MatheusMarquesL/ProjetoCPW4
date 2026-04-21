@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar.jsx"
 import Home from "./pages/Home.jsx"
 import Livros from "./pages/Livros.jsx"
 import Emprestimos from "./pages/Emprestimos.jsx"
+import LivroDetalhe from "./pages/LivroDetalhe.jsx";
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/livros" element={<Livros />}/>
+        <Route path="/livro/:id" element={<LivroDetalhe />} />
         <Route path="/emprestimos" element={<Emprestimos />}/>
       </Routes>
     </>

@@ -1,0 +1,97 @@
+.emprestimos-page {
+  padding: 40px 20px;
+  color: white;
+
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+}
+
+.lista {
+  background: rgba(58, 51, 51, 0.233);
+  padding: 40px;
+  border-radius: 16px;
+
+  min-height: 70vh;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+
+  backdrop-filter: blur(6px);
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+  }
+}
+
+.card {
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  height: 90%;
+  
+  min-width: 160px;
+  flex-shrink: 0;
+}
+
+.card img {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.sem-capa {
+  width: 120px;
+  height: 180px;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #c62828;
+  color: white;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background: #e53935;
+}
+
+.vazio {
+  color: #ccc;
+}

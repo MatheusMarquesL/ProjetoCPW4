@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BibliotecaContext } from "../context/BibliotecaContext";
 import "../styles/Livros.scss";
+import CapaLivro from "../components/CapaLivro";
 
 export default function Livros() {
   const [busca, setBusca] = useState("");
@@ -21,7 +22,7 @@ export default function Livros() {
       setLoading(true);
 
       fetch(
-        `https://openlibrary.org/search.json?title=${encodeURIComponent(busca)}`,
+        `https://openlibrary.org/search.json?title=${encodeURIComponent(busca)}`
       )
         .then((res) => res.json())
         .then((data) => setResultados(data.docs.slice(0, 10)))
@@ -32,31 +33,38 @@ export default function Livros() {
   }, [busca]);
 
   function emprestarDireto(livroAPI) {
-    const existente = livros.find((l) => l.livroKey === livroAPI.key);
+  const livroFormatado = {
+    titulo: livroAPI.title,
+    autor: livroAPI.author_name?.[0] || "Autor desconhecido",
+    capa: livroAPI.cover_i || null,
+    livroKey: livroAPI.key,
+  };
 
-    if (!existente) {
-      adicionarLivro(livroAPI);
-    } else {
-      emprestarLivro(existente.id);
-    }
+  const existente = livros.find(
+    (l) => l.livroKey === livroFormatado.livroKey
+  );
+
+  if (!existente) {
+    adicionarLivro(livroFormatado);
+  } else {
+    emprestarLivro(existente.id);
   }
-
+}
   return (
-    <div className="livros-page">
+    <div className="livros">
       <h2>Buscar livros</h2>
 
-      <div className="barra-busca">
+      <div className="livros-busca">
         <input
           type="text"
           placeholder="Digite o nome do livro..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
         />
-
         {busca && <button onClick={() => setBusca("")}>Limpar</button>}
       </div>
 
-      <div className="resultados">
+      <div className="livros-resultados">
         {loading && (
           <div className="loading-overlay">
             <h1>Conectando...</h1>
@@ -64,40 +72,43 @@ export default function Livros() {
           </div>
         )}
 
-        {!loading && resultados.length === 0 && busca.trim().length >= 2 && (
-          <p>Nenhum livro encontrado</p>
-        )}
-
         {resultados.map((livro) => {
           const existente = livros.find((l) => l.livroKey === livro.key);
 
+          const capaUrl = livro.cover_i
+            ? `https://covers.openlibrary.org/b/id/${livro.cover_i}-S.jpg`
+            : null;
+
           return (
-            <div key={livro.key} className="livro-item">
+            <div key={livro.key} className="livros-item">
               <Link
                 to={`/livro/${livro.key.replace("/works/", "")}`}
-                className="livro-link"
+                className="livros-link"
               >
-                {livro.cover_i ? (
-                  <img
-                    src={`https://covers.openlibrary.org/b/id/${livro.cover_i}-S.jpg`}
-                    alt={livro.title}
-                  />
-                ) : (
-                  <div className="sem-capa">Sem capa</div>
-                )}
+                <div className="livros-capa">
+                  <CapaLivro src={capaUrl} alt={livro.title} altura="70px" />
+                </div>
 
-                <div className="info">
-                  <h3>{livro.title}</h3>
-                  <p>{livro.author_name?.[0] || "Autor desconhecido"}</p>
+                <div className="livros-info">
+                  <h3 title={livro.title}>{livro.title}</h3>
+                  <p title={livro.author_name?.[0]}>
+                    {livro.author_name?.[0] || "Autor desconhecido"}
+                  </p>
                 </div>
               </Link>
 
               {!existente || existente.disponivel ? (
-                <button onClick={() => emprestarDireto(livro)}>
+                <button
+                  className="livros-botao"
+                  onClick={() => emprestarDireto(livro)}
+                >
                   Emprestar
                 </button>
               ) : (
-                <button onClick={() => devolverLivro(existente.id)}>
+                <button
+                  className="livros-botao"
+                  onClick={() => devolverLivro(existente.id)}
+                >
                   Devolver
                 </button>
               )}

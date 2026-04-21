@@ -1,0 +1,109 @@
+    @import "../styles/variables";
+
+    .login-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(32, 90, 35, 0.281);
+    font-family: sans-serif;
+
+    .login-card {
+        background-color: $white;
+        padding: 2.5rem;
+        border-radius: 12px;
+        border: 1px solid $border;
+        box-shadow: 0 8px 24px rgba(46, 125, 50, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+
+        h1 {
+        color: $primary-dark;
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
+        font-weight: bold;
+        }
+
+        form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+
+            label {
+            color: $text-dark;
+            font-weight: 600;
+            font-size: 0.9rem;
+            }
+
+            input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1.5px solid $border;
+            border-radius: 8px;
+            background-color: $white;
+            color: $text-dark;
+            transition: all 0.3s ease;
+
+            &::placeholder {
+                color: lighten($text-dark, 40%);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: $primary;
+                box-shadow: 0 0 0 3px $primary-light;
+            }
+            }
+        }
+
+        button {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background-color: $primary;
+            color: $text-light;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition:
+            background-color 0.3s ease,
+            transform 0.1s ease;
+
+            &:hover {
+            background-color: $primary-dark;
+            }
+
+            &:active {
+            transform: scale(0.98);
+            }
+        }
+        }
+
+        .toggle-form {
+        margin-top: 1.5rem;
+        color: lighten($text-dark, 20%);
+        font-size: 0.9rem;
+
+        span {
+            color: $primary;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+
+            &:hover {
+            text-decoration: underline;
+            color: $primary-dark;
+            }
+        }
+        }
+    }
+    }

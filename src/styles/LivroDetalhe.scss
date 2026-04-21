@@ -1,0 +1,40 @@
+.detalhe {
+  padding: 30px;
+  color: black;
+
+  display: flex;
+  gap: 40px;
+
+}
+
+.detalhe-capa {
+  width: 300px;
+  text-align: center;
+
+  h3 {
+    margin-top: 10px;
+  }
+
+  p {
+    color: #000;
+  }
+}
+
+.detalhe-info {
+  flex: 1;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  p {
+    line-height: 1.6;
+    color: black;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+}

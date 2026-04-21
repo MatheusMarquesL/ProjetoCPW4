@@ -14,20 +14,20 @@ export function BibliotecaProvider({ children }) {
     localStorage.setItem("livros", JSON.stringify(livros));
   }, [livros]);
 
-  function adicionarLivro(livroAPI) {
-    if (!livroAPI) return;
+  function adicionarLivro(livro) {
+  if (!livro) return;
 
-    const novo = {
-      id: Date.now(),
-      titulo: livroAPI.title,
-      autor: livroAPI.author_name?.[0] || "Autor desconhecido",
-      capa: livroAPI.cover_i || null,
-      livroKey: livroAPI.key,
-      disponivel: false
-    };
+  const novo = {
+    id: Date.now(),
+    titulo: livro.titulo,
+    autor: livro.autor || "Autor desconhecido",
+    capa: livro.capa || null,
+    livroKey: livro.livroKey,
+    disponivel: false
+  };
 
-    setLivros((prev) => [...prev, novo]);
-  }
+  setLivros((prev) => [...prev, novo]);
+}
 
   function emprestarLivro(id) {
     setLivros((prev) =>

@@ -1,33 +1,58 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.scss";
+import CapaLivro from "../components/CapaLivro";
+
+const generos = [
+  { nome: "Fantasia", query: "fantasy" },
+  { nome: "Romance", query: "romance" },
+  { nome: "Ficção Científica", query: "science_fiction" },
+];
 
 export default function Home() {
-  const [livros, setLivros] = useState([]);
+  const [destaques, setDestaques] = useState([]);
+  const [generosData, setGenerosData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
+    async function carregar() {
+      setLoading(true);
 
-    fetch("https://openlibrary.org/search.json?q=programming")
-      .then(res => res.json())
-      .then(data => setLivros(data.docs.slice(0, 10)))
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
+      try {
+        const res = await fetch(
+          "https://openlibrary.org/search.json?q=programming"
+        );
+        const data = await res.json();
+        setDestaques(data.docs.slice(0, 10));
+
+        const resultados = {};
+
+        for (const genero of generos) {
+          const res = await fetch(
+            `https://openlibrary.org/search.json?subject=${genero.query}`
+          );
+          const data = await res.json();
+
+          resultados[genero.nome] = data.docs.slice(0, 10);
+        }
+
+        setGenerosData(resultados);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregar();
   }, []);
 
   useEffect(() => {
-    if (loading) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = loading ? "hidden" : "auto";
   }, [loading]);
 
-  return (
-    <div className="home">
-      <h2>Livros em destaque</h2>
-
+  function renderLista(livros) {
+    return (
       <div className="livros-container">
         {livros.map((livro, index) => (
           <Link
@@ -36,23 +61,37 @@ export default function Home() {
             className="livro-link"
           >
             <div className="livro-card">
-              {livro.cover_i ? (
-                <img
-                  src={`https://covers.openlibrary.org/b/id/${livro.cover_i}-M.jpg`}
-                  alt={livro.title}
-                  className="img"
-                  onLoad={(e) => e.target.classList.add("loaded")}
-                />
-              ) : (
-                <div className="sem-capa">Sem capa</div>
-              )}
+              <CapaLivro
+                src={
+                  livro.cover_i
+                    ? `https://covers.openlibrary.org/b/id/${livro.cover_i}-M.jpg`
+                    : null
+                }
+                alt={livro.title}
+              />
 
-              <h3>{livro.title}</h3>
-              <p>{livro.author_name?.[0] || "Autor desconhecido"}</p>
+              <div className="livro-info">
+                <h3>{livro.title}</h3>
+                <p>{livro.author_name?.[0] || "Autor desconhecido"}</p>
+              </div>
             </div>
           </Link>
         ))}
       </div>
+    );
+  }
+
+  return (
+    <div className="home">
+      <h2>Livros em destaque</h2>
+      {renderLista(destaques)}
+
+      {Object.entries(generosData).map(([genero, livros]) => (
+        <div key={genero}>
+          <h2>{genero}</h2>
+          {renderLista(livros)}
+        </div>
+      ))}
 
       {loading && (
         <div className="loading-overlay">
